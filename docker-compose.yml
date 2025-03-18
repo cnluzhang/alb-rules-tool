@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  alb-rules-tool:
+    build: .
+    volumes:
+      - .:/app
+      - ~/.aws:/home/appuser/.aws:ro  # Mount AWS credentials (read-only)
+    environment:
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      # Uncomment the lines below if not using ~/.aws credentials
+      # - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      # - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - ALB_RULES_LOG_LEVEL=${ALB_RULES_LOG_LEVEL:-INFO}
+    # Default command shows help
+    command: --help

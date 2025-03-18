@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - ~/.aws:/home/appuser/.aws:ro  # Mount AWS credentials (read-only)
+    environment:
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      # Uncomment the lines below if not using ~/.aws credentials
+      # - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      # - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - ALB_RULES_LOG_LEVEL=${ALB_RULES_LOG_LEVEL:-INFO}
+    working_dir: /app
+    # Keep container running for development work
+    command: tail -f /dev/null
